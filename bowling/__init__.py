@@ -1,2 +1,2 @@
 def score_game(game):
-    return 0
+    return sum(game)
