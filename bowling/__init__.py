@@ -15,9 +15,13 @@ def score_game(throws):
 def _frames(game):
     index = 0
     while index < len(game):
-        frame = Frame(index, _frame_length(game, index))
+        frame = _create_frame(game, index)
         yield frame
         index += frame.length
+
+
+def _create_frame(game, index):
+    return Frame(index, _frame_length(game, index))
 
 
 def _frame_length(game, index):
