@@ -16,5 +16,8 @@ class BowlingTests(unittest.TestCase):
     def test_score_of_strike_is_ten_plus_next_two_throws(self):
         self.assert_game_score(21, [10, 2, 3, 1])
         
+    def test_score_of_strike_is_ten_if_next_throws_arent_present(self):
+        self.assert_game_score(10, [10])
+    
     def assert_game_score(self, expected_score, game):
         self.assertEqual(expected_score, bowling.score_game(game))
