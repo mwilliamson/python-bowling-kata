@@ -1,15 +1,6 @@
 def score_game(throws):
     game = Game(throws)
-    total = 0
-    for frame in _frames(game):
-        index = frame.index
-        total += game.pins_knocked_down(index) + game.pins_knocked_down(index + 1)
-        if _is_strike(game, index):
-            total += game.pins_knocked_down(index + 2)
-        elif _is_spare(game, index):
-            total += game.pins_knocked_down(index + 2)
-        
-    return total
+    return sum(frame.score for frame in _frames(game))
 
 
 def _frames(game):
@@ -21,14 +12,38 @@ def _frames(game):
 
 
 def _create_frame(game, index):
-    return Frame(index, _frame_length(game, index))
-
-
-def _frame_length(game, index):
     if _is_strike(game, index):
-        return 1
+        return _create_strike(game, index)
+    elif _is_spare(game, index):
+        return _create_spare(game, index)
     else:
-        return 2
+        return _create_normal_frame(game, index)
+    
+        
+def _create_strike(game, index):
+    score = (
+        game.pins_knocked_down(index) +
+        game.pins_knocked_down(index + 1) +
+        game.pins_knocked_down(index + 2)
+    )
+    return Frame(score, 1)
+
+
+def _create_spare(game, index):
+    score = (
+        game.pins_knocked_down(index) +
+        game.pins_knocked_down(index + 1) +
+        game.pins_knocked_down(index + 2)
+    )
+    return Frame(score, 2)
+
+
+def _create_normal_frame(game, index):
+    score = (
+        game.pins_knocked_down(index) +
+        game.pins_knocked_down(index + 1)
+    )
+    return Frame(score, 2)
 
 
 def _is_strike(game, index):
@@ -40,8 +55,8 @@ def _is_spare(game, index):
 
 
 class Frame(object):
-    def __init__(self, index, length):
-        self.index = index
+    def __init__(self, score, length):
+        self.score = score
         self.length = length
         
 
