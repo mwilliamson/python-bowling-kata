@@ -21,37 +21,26 @@ def _create_frame(game, index):
     
         
 def _create_strike(game, index):
-    score = (
-        game.pins_knocked_down(index) +
-        game.pins_knocked_down(index + 1) +
-        game.pins_knocked_down(index + 2)
-    )
+    score = game.pins_knocked_down(index, 3)
     return Frame(score, 1)
 
 
 def _create_spare(game, index):
-    score = (
-        game.pins_knocked_down(index) +
-        game.pins_knocked_down(index + 1) +
-        game.pins_knocked_down(index + 2)
-    )
+    score = game.pins_knocked_down(index, 3)
     return Frame(score, 2)
 
 
 def _create_normal_frame(game, index):
-    score = (
-        game.pins_knocked_down(index) +
-        game.pins_knocked_down(index + 1)
-    )
+    score = game.pins_knocked_down(index, 2)
     return Frame(score, 2)
 
 
 def _is_strike(game, index):
-    return game.pins_knocked_down(index) == 10
+    return game.pins_knocked_down(index, 1) == 10
 
 
 def _is_spare(game, index):
-    return game.pins_knocked_down(index) + game.pins_knocked_down(index + 1) == 10
+    return game.pins_knocked_down(index, 2) == 10
 
 
 class Frame(object):
@@ -63,8 +52,11 @@ class Frame(object):
 class Game(object):
     def __init__(self, throws):
         self._throws = throws
-        
-    def pins_knocked_down(self, index):
+    
+    def pins_knocked_down(self, index, length):
+        return sum(map(self._throw, range(index, index + length)))
+    
+    def _throw(self, index):
         if index < len(self._throws):
             return self._throws[index]
         else:
