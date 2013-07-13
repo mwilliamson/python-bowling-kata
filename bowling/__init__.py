@@ -5,6 +5,8 @@ def score_game(throws):
         total += pins_knocked_down
         if pins_knocked_down == 10:
             total += game.pins_knocked_down(index + 1) + game.pins_knocked_down(index + 2)
+        elif pins_knocked_down + game.pins_knocked_down(index + 1) == 10:
+            total += game.pins_knocked_down(index + 2)
         
     return total
 
