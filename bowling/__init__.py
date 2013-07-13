@@ -61,6 +61,3 @@ class Game(object):
             return self._throws[index]
         else:
             return 0
-            
-    def __len__(self):
-        return len(self._throws)
