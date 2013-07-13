@@ -15,11 +15,16 @@ def score_game(throws):
 def _frames(game):
     index = 0
     while index < len(game):
-        yield Frame(index)
-        if _is_strike(game, index):
-            index += 1
-        else:
-            index += 2
+        frame = Frame(index, _frame_length(game, index))
+        yield frame
+        index += frame.length
+
+
+def _frame_length(game, index):
+    if _is_strike(game, index):
+        return 1
+    else:
+        return 2
 
 
 def _is_strike(game, index):
@@ -31,8 +36,9 @@ def _is_spare(game, index):
 
 
 class Frame(object):
-    def __init__(self, index):
+    def __init__(self, index, length):
         self.index = index
+        self.length = length
         
 
 class Game(object):
