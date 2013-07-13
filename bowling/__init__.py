@@ -1,7 +1,8 @@
 def score_game(throws):
     game = Game(throws)
     total = 0
-    for index in _frame_indexes(game):
+    for frame in _frames(game):
+        index = frame.index
         total += game.pins_knocked_down(index) + game.pins_knocked_down(index + 1)
         if _is_strike(game, index):
             total += game.pins_knocked_down(index + 2)
@@ -11,10 +12,10 @@ def score_game(throws):
     return total
 
 
-def _frame_indexes(game):
+def _frames(game):
     index = 0
     while index < len(game):
-        yield index
+        yield Frame(index)
         if _is_strike(game, index):
             index += 1
         else:
@@ -28,6 +29,11 @@ def _is_strike(game, index):
 def _is_spare(game, index):
     return game.pins_knocked_down(index) + game.pins_knocked_down(index + 1) == 10
 
+
+class Frame(object):
+    def __init__(self, index):
+        self.index = index
+        
 
 class Game(object):
     def __init__(self, throws):
