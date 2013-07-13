@@ -24,6 +24,9 @@ class BowlingTests(unittest.TestCase):
         
     def test_two_throws_totalling_ten_is_not_spare_if_not_in_same_frame(self):
         self.assert_game_score(15, [0, 4, 6, 2, 3])
+        
+    def test_zero_then_ten_in_same_frame_is_treated_as_spare(self):
+        self.assert_game_score(24, [0, 10, 6, 2])
     
     def assert_game_score(self, expected_score, game):
         self.assertEqual(expected_score, bowling.score_game(game))
