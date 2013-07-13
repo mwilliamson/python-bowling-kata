@@ -4,16 +4,24 @@ def score_game(throws):
     index = 0
     while index < len(game):
         total += game.pins_knocked_down(index) + game.pins_knocked_down(index + 1)
-        if game.pins_knocked_down(index) == 10:
+        if _is_strike(game, index):
             total += game.pins_knocked_down(index + 2)
             index += 1
-        elif game.pins_knocked_down(index) + game.pins_knocked_down(index + 1) == 10:
+        elif _is_spare(game, index):
             total += game.pins_knocked_down(index + 2)
             index += 2
         else:
             index += 2
         
     return total
+
+
+def _is_strike(game, index):
+    return game.pins_knocked_down(index) == 10
+
+
+def _is_spare(game, index):
+    return game.pins_knocked_down(index) + game.pins_knocked_down(index + 1) == 10
 
 
 class Game(object):
