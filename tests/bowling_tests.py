@@ -27,6 +27,9 @@ class BowlingTests(unittest.TestCase):
         
     def test_zero_then_ten_in_same_frame_is_treated_as_spare(self):
         self.assert_game_score(24, [0, 10, 6, 2])
+
+    def test_score_of_perfect_game_is_300(self):
+        self.assert_game_score(300, [10] * 12)
     
     def assert_game_score(self, expected_score, game):
         self.assertEqual(expected_score, bowling.score_game(game))
